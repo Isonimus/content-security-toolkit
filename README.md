@@ -4,12 +4,12 @@ A comprehensive toolkit for implementing content security measures in web applic
 
 ## Features
 
-- 🛡️ Prevent keyboard shortcuts (Ctrl+P, Ctrl+S, etc.)
-- 🖱️ Disable context menu (right-click)
-- 🖨️ Block printing attempts
-- 💧 Add watermarks to content
-- 📱 Works across desktop and mobile browsers
-- 🔧 Highly configurable and extensible
+- Prevent keyboard shortcuts (Ctrl+P, Ctrl+S, etc.)
+- Disable context menu (right-click)
+- Block printing attempts
+- Add watermarks to content
+- Works across desktop and mobile browsers
+- Highly configurable and extensible
 
 ## Installation
 
@@ -157,22 +157,6 @@ While Content Security Toolkit provides robust protection, it's important to und
 8. **Browser Extensions**: Some browser extensions might interfere with or bypass certain protection mechanisms.
 
 Unlike DRM systems that encrypt content and control playback through specialized software, Content Security Toolkit focuses on preventing common extraction methods while maintaining compatibility with standard web browsers. It's designed as a deterrent rather than an unbreakable protection system.
-
-## Planned Future Enhancements
-
-The Content Security Toolkit roadmap includes several planned enhancements:
-
-1. **Network Request Monitoring**: Detect and block suspicious API calls that might be used to extract content
-2. **Iframe Protection**: Prevent content from being embedded in unauthorized iframes
-3. **Content Encryption**: Client-side encryption for sensitive content with secure key management
-4. **Timed Access**: Time-limited content access with automatic expiration
-5. **Geolocation Restrictions**: Limit content access based on user location
-6. **User Authentication Integration**: Tighter integration with authentication systems
-7. **Offline Protection**: Mechanisms to protect cached content when offline
-8. **Video/Audio Protection**: Specialized protections for media content
-9. **Browser Extension Detection**: Identify potentially malicious browser extensions
-10. **Server-Side Components**: Optional server-side validation to enhance security
-
 
 ## Best Practices for Implementation
 
