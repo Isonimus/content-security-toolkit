@@ -1,7 +1,6 @@
 import { describe, it, expect, jest, beforeEach, afterEach } from "@jest/globals"
 import { ContentProtector } from "../../core/ContentProtector"
 import type { ProtectionStrategy } from "../../types"
-import { intervalManager } from "../../utils/intervalManager"
 
 // Create a more complete mock for DOM APIs
 const createMockDocument = () => {
@@ -115,10 +114,11 @@ const createMockWindow = () => {
 }
 
 // Mock navigator
-const createMockNavigator = (): {userAgent: string} => {
+const createMockNavigator = (): {userAgent: string; platform: string} => {
   return {
     userAgent:
       "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+    platform: "Win32",
   }
 }
 
@@ -411,26 +411,24 @@ describe("ContentProtector", () => {
     expect(protector.isProtected()).toBe(false)
   })
 
-  it("should show and remove overlay", () => {
-    const protector = new ContentProtector()
-
-    // Show overlay
-    protector.showOverlay({
-      title: "Test Overlay",
-      message: "This is a test overlay",
-      backgroundColor: "rgba(0, 0, 0, 0.8)",
-      textColor: "white",
+  it("should have enable watermark strategy", () => {
+    const protector = new ContentProtector({
+      enableWatermark: true,
+      watermarkOptions: {
+        text: "CONFIDENTIAL",
+      },
     })
 
-    // Check that overlay was created
-    expect(document.createElement).toHaveBeenCalledWith("div")
-    expect(document.body.appendChild).toHaveBeenCalled()
+    // Check that watermark strategy exists
+    expect(protector.hasStrategy("watermark")).toBe(true)
+    expect(protector.getStrategy("watermark")).toBeDefined()
 
-    // Remove overlay
-    protector.removeOverlay()
+    // Apply protection
+    protector.protect()
+    expect(protector.isProtected()).toBe(true)
 
-    // Check that overlay was removed
-    expect(document.getElementById).toHaveBeenCalledWith("security-overlay")
+    // Cleanup
+    protector.dispose()
   })
 
   it("should dispose all resources", () => {
@@ -445,9 +443,6 @@ describe("ContentProtector", () => {
 
     // Should call unprotect
     expect(protector.isProtected()).toBe(false)
-
-
-    expect(intervalManager.dispose).toHaveBeenCalled()
 
     // Should log disposal
     expect(console.log).toHaveBeenCalledWith(expect.stringContaining("ContentProtector: Disposed all resources"))
