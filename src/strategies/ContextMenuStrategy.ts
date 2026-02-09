@@ -182,7 +182,7 @@ export class ContextMenuStrategy extends AbstractStrategy {
       }
 
       // Function to protect the iframe content
-      const protectIframeContent = () => {
+      const protectIframeContent = (): void => {
         // Access the iframe's contentDocument - safeExecute will handle any errors
         const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document
 
@@ -231,7 +231,7 @@ export class ContextMenuStrategy extends AbstractStrategy {
         }
 
         // Add direct event listeners as a backup
-        this.safeExecute("addDirectListeners", StrategyErrorType.EVENT_HANDLING, () => {
+        this.safeExecute("addDirectListeners", StrategyErrorType.EVENT_HANDLING, (): void => {
           iframeDoc.addEventListener("contextmenu", this.contextMenuHandler, {
             capture: true,
             passive: false,
@@ -248,10 +248,10 @@ export class ContextMenuStrategy extends AbstractStrategy {
         })
 
         // Try to disable the default context menu using oncontextmenu property
-        this.safeExecute("setOnContextMenu", StrategyErrorType.EVENT_HANDLING, () => {
-          iframeDoc.oncontextmenu = () => false
+        this.safeExecute("setOnContextMenu", StrategyErrorType.EVENT_HANDLING, (): void => {
+          iframeDoc.oncontextmenu = (): boolean => false
           if (iframeDoc.body) {
-            iframeDoc.body.oncontextmenu = () => false
+            iframeDoc.body.oncontextmenu = (): boolean => false
           }
           this.log("Set oncontextmenu property on iframe document")
         })
@@ -278,7 +278,7 @@ export class ContextMenuStrategy extends AbstractStrategy {
       const maxAttempts = 5
       let attempts = 0
 
-      const attemptProtection = () => {
+      const attemptProtection = (): void => {
         attempts++
         if (attempts > maxAttempts) return
 
@@ -296,7 +296,7 @@ export class ContextMenuStrategy extends AbstractStrategy {
       setTimeout(attemptProtection, 100)
 
       // Also set up a load event handler as a fallback
-      const loadHandler = () => {
+      const loadHandler = (): void => {
         this.safeExecute("loadHandler", StrategyErrorType.APPLICATION, () => {
           protectIframeContent()
         })

@@ -3,8 +3,8 @@ import { ContentProtector } from "../../core/ContentProtector"
 import type { ProtectionStrategy } from "../../types"
 
 // Create a more complete mock for DOM APIs
-const createMockDocument = () => {
-  const mockStyleElement = {
+const createMockDocument = (): unknown => {
+  const mockStyleElement: { setAttribute: jest.Mock; textContent: string; parentNode: { removeChild: jest.Mock } } = {
     setAttribute: jest.fn(),
     textContent: "",
     parentNode: {
@@ -74,7 +74,7 @@ const createMockDocument = () => {
 }
 
 // Mock window object
-const createMockWindow = () => {
+const createMockWindow = (): unknown => {
   return {
     addEventListener: jest.fn(),
     removeEventListener: jest.fn(),
@@ -149,13 +149,13 @@ global.performance = {
 
 // Mock console methods
 const originalConsole = { ...console }
-beforeEach(() => {
+beforeEach((): void => {
   console.log = jest.fn()
   console.warn = jest.fn()
   console.error = jest.fn()
 })
 
-afterEach(() => {
+afterEach((): void => {
   console.log = originalConsole.log
   console.warn = originalConsole.warn
   console.error = originalConsole.error
